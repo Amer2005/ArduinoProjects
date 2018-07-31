@@ -50,7 +50,7 @@ void nextStep()
   {
     for (int j = 0; j < 16; j++)
     {
-      if (a[i][j] == 'O'&&isPlayerUsed == false)
+      if (a[i][j] == 'O' && isPlayerUsed == false)
       {
         isPlayerUsed = true;
         if (buttonState == 1 && i == 1)
@@ -61,21 +61,22 @@ void nextStep()
         }
         else if (i == 0)
         {
-          if(a[i + 1][j] == 'X')
+          if (a[i + 1][j] == 'X')
           {
-              score++;
+            score++;
           }
           a[i + 1][j] = 'O';
           a[i][j] = ' ';
         }
       }
-      if (a[i][j] == 'X'&&untilUpdate >= 2)
+      if (a[i][j] == 'X' && untilUpdate >= 2)
       {
-        if (j == 0)
-        {
-          a[i][j] = ' ';
-        }
-        else if (a[i][j - 1] == 'O')
+        //if (j == 0)
+        //{
+        //  a[i][j] = ' ';
+        //}
+        //else if (a[i][j - 1] == 'O')
+        if (a[i][j - 1] == 'O')
         {
           gameOver = true;
           a[i][j] = ' ';
@@ -90,7 +91,7 @@ void nextStep()
       }
     }
   }
-  if(Enemy)
+  if (Enemy)
   {
     untilUpdate = 0;
   }
@@ -136,18 +137,18 @@ void loop() {
     a[0][14] = score2 / 10 + '0';
     score2 %= 10;
     a[0][15] = score2 / 1 + '0';
-    
+
     buttonState = digitalRead(buttonPin);
     //Serial.println(buttonState);
     //lcd.setCursor(0, 1);
-      nextStep();
+    nextStep();
     render();
     untilSpawn++;
     untilUpdate++;
   }
   else
   {
-    if(gameOverStart)
+    if (gameOverStart)
     {
       lcd.clear();
       lcd.setCursor(0, 0);
