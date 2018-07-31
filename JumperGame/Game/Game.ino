@@ -27,6 +27,54 @@ int spawner = 1;
 
 int score = 0;
 
+byte player[8] = {
+  0b00100,
+  0b00000,
+  0b01110,
+  0b10101,
+  0b00100,
+  0b00100,
+  0b11010,
+  0b00001
+};
+
+byte player2[8] = {
+  0b00100,
+  0b00000,
+  0b01110,
+  0b10101,
+  0b00100,
+  0b00100,
+  0b01010,
+  0b01010
+};
+
+byte enemyRender[8] = {
+  0b00000,
+  0b11111,
+  0b11111,
+  0b10101,
+  0b11111,
+  0b10101,
+  0b10001,
+  0b00000
+};
+
+byte enemyRender2[8] = {
+  0b11111,
+  0b11111,
+  0b10101,
+  0b11111,
+  0b10101,
+  0b10001,
+  0b00000,
+  0b00000
+};
+
+int playerAnimation = 0;
+
+int enemyAnimation = 0;
+
 void render()
 {
 
@@ -34,8 +82,41 @@ void render()
   {
     for (int j = 0; j < 16; j++)
     {
-      lcd.setCursor(j, i);
-      lcd.print(a[i][j]);
+      if(a[i][j] == 'O')
+      {
+        if(playerAnimation == 0)
+        {
+          lcd.setCursor(j, i);
+          lcd.write((uint8_t)0);
+          playerAnimation = 1;
+        }
+        else
+        {
+          lcd.setCursor(j, i);
+          lcd.write((uint8_t)1);
+          playerAnimation = 0;
+        }
+      }
+      else if(a[i][j] == 'X')
+      {
+        if(enemyAnimation == 0)
+        {
+          lcd.setCursor(j, i);
+          lcd.write((uint8_t)2);
+          enemyAnimation = 1;
+        }
+        else
+        {
+          lcd.setCursor(j, i);
+          lcd.write((uint8_t)3);
+          enemyAnimation = 0;
+        }
+      }
+      else
+      {
+        lcd.setCursor(j, i);
+        lcd.print(a[i][j]);
+      }
 
     }
   }
@@ -103,7 +184,12 @@ void setup() {
   Serial.begin(9600);
   /// set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
-
+  lcd.createChar(0, player);
+  lcd.createChar(1, player2);
+  
+  lcd.createChar(2, enemyRender);
+  lcd.createChar(3, enemyRender2);
+  
   pinMode(buttonPin, INPUT);
 
   for (int i = 0; i < 2; i++)
